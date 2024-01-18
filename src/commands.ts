@@ -118,10 +118,10 @@ export const insertNewlineContinueMarkup: StateCommand = ({state, dispatch}) => 
     let emptyLine = pos >= (inner.to - inner.spaceAfter.length) && !/\S/.test(line.text.slice(inner.to))
     // Empty line in list
     if (inner.item && emptyLine) {
-      let first = inner.node.firstChild!, second = inner.node.getChild("ListItem", "ListItem")
+      /* let first = inner.node.firstChild!, second = inner.node.getChild("ListItem", "ListItem")
       // Not second item or blank line before: delete a level of markup
       if (first.to >= pos || second && second.to < pos ||
-          line.from > 0 && !/[^\s>]/.test(doc.lineAt(line.from - 1).text)) {
+          line.from > 0 && !/[^\s>]/.test(doc.lineAt(line.from - 1).text)) { */
         let next = context.length > 1 ? context[context.length - 2] : null
         let delTo, insert = ""
         if (next && next.item) { // Re-add marker for the list at the next level
@@ -134,11 +134,11 @@ export const insertNewlineContinueMarkup: StateCommand = ({state, dispatch}) => 
         if (inner.node.name == "OrderedList") renumberList(inner.item!, doc, changes, -2)
         if (next && next.node.name == "OrderedList") renumberList(next.item!, doc, changes)
         return {range: EditorSelection.cursor(delTo + insert.length), changes}
-      } else { // Move second item down, making tight two-item list non-tight
+      /* } else { // Move second item down, making tight two-item list non-tight
         let insert = blankLine(context, state, line)
         return {range: EditorSelection.cursor(pos + insert.length + 1),
                 changes: {from: line.from, insert: insert + state.lineBreak}}
-      }
+      } */
     }
 
     if (inner.node.name == "Blockquote" && emptyLine && line.from) {
